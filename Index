@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algo Trading Course Catalog</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07111f;
+      --panel: rgba(11, 22, 40, 0.82);
+      --panel-2: rgba(18, 32, 56, 0.96);
+      --line: rgba(255,255,255,0.08);
+      --text: #eef4ff;
+      --muted: #a9b7d0;
+      --accent: #35c2ff;
+      --accent-2: #7c5cff;
+      --success: #4ade80;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 24px;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(53,194,255,0.14), transparent 26%),
+        radial-gradient(circle at top right, rgba(124,92,255,0.14), transparent 24%),
+        linear-gradient(180deg, #07111f 0%, #0b1426 45%, #09101d 100%);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+      padding: 24px 0 50px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 22px;
+      margin-bottom: 22px;
+    }
+
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      top: -70px;
+      background: radial-gradient(circle, rgba(53,194,255,0.22), transparent 65%);
+      border-radius: 50%;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #d9e7ff;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 16px rgba(53,194,255,0.8);
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+      max-width: 700px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 720px;
+      margin-bottom: 22px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      text-decoration: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 0.97rem;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 14px 35px rgba(53,194,255,0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .price-card {
+      background: linear-gradient(180deg, rgba(53,194,255,0.18), rgba(124,92,255,0.12));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 26px;
+      padding: 22px;
+    }
+
+    .price-card small,
+    .mini small {
+      color: #d7e6ff;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .price {
+      font-size: 2.7rem;
+      font-weight: 800;
+      margin: 10px 0 8px;
+    }
+
+    .price-sub {
+      color: var(--muted);
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .list div {
+      color: #e8f1ff;
+      font-size: 0.95rem;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .list div::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 800;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .mini {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .mini strong {
+      display: block;
+      font-size: 1.3rem;
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+
+    .mini p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin: 30px 0 16px;
+    }
+
+    .section-head h2 {
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+    }
+
+    .catalog {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .module {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .module:hover {
+      transform: translateY(-4px);
+      border-color: rgba(53,194,255,0.35);
+    }
+
+    .module-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .module-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: #8fdcff;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .module h3 {
+      font-size: 1.22rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.93rem;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      background: rgba(74,222,128,0.16);
+      border: 1px solid rgba(74,222,128,0.18);
+      color: #baf7cc;
+      padding: 10px 12px;
+      border-radius: 16px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .desc {
+      color: #dce8fb;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .bullets {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .bullets span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .bullets span::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .module-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .module .btn {
+      width: 100%;
+    }
+
+    .ghost {
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .catalog {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .stats,
+      .mini-grid,
+      .module-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main,
+      .hero-side,
+      .module,
+      .price-card,
+      .mini {
+        padding: 18px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      h1 { font-size: 2rem; }
+      .price { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-main glass">
+        <div class="pill"><span class="dot"></span> Premium Course Catalog</div>
+        <h1>Master MQL, Indicators, and Expert Advisors</h1>
+        <p class="lead">
+          A polished trading development course catalog inspired by your screenshot, rebuilt into a premium sales page you can use for yourself. Clean layout, strong pricing, and ready for WhatsApp orders, payment links, or enroll buttons.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#modules" class="btn btn-primary">Browse Modules</a>
+          <button class="btn btn-secondary" onclick="alert('Add your WhatsApp link, payment URL, or contact form here.')">Start Selling</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>13</strong><span>Structured sections</span></div>
+          <div class="stat"><strong>75+</strong><span>Lessons included</span></div>
+          <div class="stat"><strong>16+ hrs</strong><span>Learning content</span></div>
+          <div class="stat"><strong>Beginner to EA</strong><span>Skill progression</span></div>
+        </div>
+      </div>
+
+      <div class="hero-side glass">
+        <div class="price-card">
+          <small>Full Course Access</small>
+          <div class="price">R1,499</div>
+          <div class="price-sub">One payment for the complete catalog and all modules.</div>
+          <div class="list">
+            <div>Programming foundations</div>
+            <div>Indicator creation</div>
+            <div>First Expert Advisor build</div>
+            <div>Professional mobile-friendly page</div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="alert('Connect this to your checkout, WhatsApp, or payment page.')">Enroll for Full Access</button>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini">
+            <small>Best For</small>
+            <strong>Self-study</strong>
+            <p>Perfect for learners building MQL skills step by step.</p>
+          </div>
+          <div class="mini">
+            <small>Sell By</small>
+            <strong>Modules</strong>
+            <p>Offer the full course or sell sections one by one.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head" id="modules">
+      <div>
+        <h2>Course Modules</h2>
+        <p>Premium catalog design with prices in rand.</p>
+      </div>
+    </div>
+
+    <section class="catalog">
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 1</div>
+            <h3>Introduction</h3>
+            <div class="meta">3 lessons • 31 min</div>
+          </div>
+          <div class="badge">R99</div>
+        </div>
+        <p class="desc">Kick open the door to MQL with a simple, beginner-friendly overview.</p>
+        <div class="bullets">
+          <span>Course overview</span>
+          <span>What MQL is used for</span>
+          <span>Setup and orientation</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 2</div>
+            <h3>Storing Data in Variables</h3>
+            <div class="meta">3 lessons • 36 min</div>
+          </div>
+          <div class="badge">R129</div>
+        </div>
+        <p class="desc">Build the coding backbone by learning how data is stored and handled.</p>
+        <div class="bullets">
+          <span>Variable declaration</span>
+          <span>Value assignment</span>
+          <span>Trading data storage</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 3</div>
+            <h3>Datatypes</h3>
+            <div class="meta">16 lessons • 2 hr 56 min</div>
+          </div>
+          <div class="badge">R199</div>
+        </div>
+        <p class="desc">A deeper coding chamber where MQL datatypes stop being vague smoke and become sharp tools.</p>
+        <div class="bullets">
+          <span>Numbers, strings, booleans</span>
+          <span>Type usage in trading scripts</span>
+          <span>Cleaner logic building</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 4</div>
+            <h3>Operators and Operations</h3>
+            <div class="meta">4 lessons • 53 min</div>
+          </div>
+          <div class="badge">R149</div>
+        </div>
+        <p class="desc">Learn how MQL compares, calculates, and reacts when conditions start colliding.</p>
+        <div class="bullets">
+          <span>Arithmetic operators</span>
+          <span>Comparison logic</span>
+          <span>Practical code flow</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 5</div>
+            <h3>Conditional Operators</h3>
+            <div class="meta">3 lessons • 30 min</div>
+          </div>
+          <div class="badge">R129</div>
+        </div>
+        <p class="desc">Teach your code to make decisions instead of staring blankly at the candles.</p>
+        <div class="bullets">
+          <span>If statements</span>
+          <span>Decision branches</span>
+          <span>Signal condition logic</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 6</div>
+            <h3>Conditional Loops</h3>
+            <div class="meta">6 lessons • 56 min</div>
+          </div>
+          <div class="badge">R149</div>
+        </div>
+        <p class="desc">Loops are the gears under the hood, turning repeated tasks into automation.</p>
+        <div class="bullets">
+          <span>Loop structures</span>
+          <span>Repeated strategy checks</span>
+          <span>Automation logic flow</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 7</div>
+            <h3>Functions</h3>
+            <div class="meta">5 lessons • 1 hr 20 min</div>
+          </div>
+          <div class="badge">R179</div>
+        </div>
+        <p class="desc">Break large code into reusable pieces and start coding like a builder, not a button masher.</p>
+        <div class="bullets">
+          <span>Reusable logic blocks</span>
+          <span>Cleaner EA structure</span>
+          <span>Better code organization</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 8</div>
+            <h3>Classes</h3>
+            <div class="meta">11 lessons • 2 hr 50 min</div>
+          </div>
+          <div class="badge">R249</div>
+        </div>
+        <p class="desc">This is where the course puts on a tailored jacket and starts looking very professional.</p>
+        <div class="bullets">
+          <span>Object-oriented concepts</span>
+          <span>Structured large projects</span>
+          <span>Advanced coding workflow</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 9</div>
+            <h3>First Indicator</h3>
+            <div class="meta">3 lessons • 51 min</div>
+          </div>
+          <div class="badge">R199</div>
+        </div>
+        <p class="desc">Build your first visual indicator and watch raw logic bloom onto the chart.</p>
+        <div class="bullets">
+          <span>Indicator structure</span>
+          <span>Visual outputs</span>
+          <span>Chart plotting basics</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 10</div>
+            <h3>Second Indicator</h3>
+            <div class="meta">5 lessons • 1 hr 40 min</div>
+          </div>
+          <div class="badge">R219</div>
+        </div>
+        <p class="desc">Add more muscle to your indicator skills with deeper chart logic and custom calculations.</p>
+        <div class="bullets">
+          <span>Intermediate indicator work</span>
+          <span>Custom calculations</span>
+          <span>Signal display logic</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 11</div>
+            <h3>Third Indicator</h3>
+            <div class="meta">6 lessons • 1 hr 24 min</div>
+          </div>
+          <div class="badge">R219</div>
+        </div>
+        <p class="desc">A stronger, sharper indicator stage for learners ready to move beyond the basics.</p>
+        <div class="bullets">
+          <span>Advanced output design</span>
+          <span>Signal refinement</span>
+          <span>Practical market visuals</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 12</div>
+            <h3>First EA</h3>
+            <div class="meta">9 lessons • 2 hr 8 min</div>
+          </div>
+          <div class="badge">R299</div>
+        </div>
+        <p class="desc">The crown jewel. This is where the strategy gets wheels and starts moving on its own.</p>
+        <div class="bullets">
+          <span>Build your first Expert Advisor</span>
+          <span>Trade execution logic</span>
+          <span>Automation foundations</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+
+      <article class="module">
+        <div class="module-top">
+          <div>
+            <div class="module-tag">Section 13</div>
+            <h3>Final Remarks</h3>
+            <div class="meta">1 lesson • 3 min</div>
+          </div>
+          <div class="badge">R79</div>
+        </div>
+        <p class="desc">A short closing chapter with next steps, polish, and direction for what comes after the course.</p>
+        <div class="bullets">
+          <span>Completion wrap-up</span>
+          <span>What to build next</span>
+          <span>Progress roadmap</span>
+        </div>
+        <div class="module-actions">
+          <button class="btn btn-primary">Buy Module</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+      </article>
+    </section>
+
+    
+  </div>
+</body>
+</html>
